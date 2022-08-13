@@ -24,6 +24,7 @@ public class PersonService {
         person.setEmail(scanner.nextLine());
 
         repository.create(person);
+
         return person;
     }
 
