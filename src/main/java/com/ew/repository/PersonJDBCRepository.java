@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PersonJDBCRepository {
-    private Connection connection;
+    private final Connection connection;
 
 
     public PersonJDBCRepository(Connection connection) {
@@ -40,5 +40,13 @@ public class PersonJDBCRepository {
             e.printStackTrace();
         }
         return result;
+    }
+
+    public void deleteAll() {
+        try (PreparedStatement preparedStatement = connection.prepareCall("DELETE FROM person")){
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

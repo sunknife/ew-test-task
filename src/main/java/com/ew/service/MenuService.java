@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class MenuService {
 
-    private DataSource dataSource;
+    private final DataSource dataSource;
 
     public MenuService(DataSource dataSource) {
         this.dataSource = dataSource;
@@ -35,13 +35,17 @@ public class MenuService {
                     System.out.println("-----Person menu-----");
                     System.out.println("press 1 - Create User");
                     System.out.println("press 2 - Show all users");
+                    System.out.println("press 3 - Delete all users");
                     System.out.println("press 0 - Return to Main menu");
                     personMenuInput = scanner.nextLine();
                     if (personMenuInput.equals("1")) {
-                        System.out.println(personService.create(scanner));
+                        personService.printPerson(personService.create(scanner));
                     }
                     if (personMenuInput.equals("2")) {
-                        System.out.println(personService.findAll());
+                        personService.printPersons(personService.findAll());
+                    }
+                    if (personMenuInput.equals("3")) {
+                        personService.deleteAll();
                     }
                 }
             }
@@ -55,6 +59,7 @@ public class MenuService {
                     System.out.println("press 3 - Show all expenses");
                     System.out.println("press 4 - Show expenses by category");
                     System.out.println("press 5 - Show expenses by date");
+                    System.out.println("press 6 - Clean all expenses");
                     System.out.println("press 0 - Return to Main menu");
                     expenseMenuInput = scanner.nextLine();
                     if (expenseMenuInput.equals("1")) {
@@ -89,6 +94,9 @@ public class MenuService {
                                 expenseService.printExpenses(expenseService.findByDate(scanner));
                             }
                         }
+                    }
+                    if (expenseMenuInput.equals("6")) {
+                        expenseService.deleteAll();
                     }
                 }
 

@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class ExpenseService {
 
-    private ExpenseJDBCRepository repository;
+    private final ExpenseJDBCRepository repository;
 
     public ExpenseService(ExpenseJDBCRepository repository) {
         this.repository = repository;
@@ -130,5 +130,9 @@ public class ExpenseService {
         System.out.println("Enter Month (numeric)");
         int month = Integer.parseInt(scanner.nextLine());
         return repository.findByMonth(year, month);
+    }
+
+    public void deleteAll() {
+        repository.deleteAll();
     }
 }

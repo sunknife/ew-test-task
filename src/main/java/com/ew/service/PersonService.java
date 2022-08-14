@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class PersonService {
 
-    private PersonJDBCRepository repository;
+    private final PersonJDBCRepository repository;
 
     public PersonService(PersonJDBCRepository repository) {
         this.repository = repository;
@@ -30,5 +30,23 @@ public class PersonService {
 
     public List<Person> findAll() {
         return repository.findAll();
+    }
+
+    public void deleteAll() {
+        repository.deleteAll();
+    }
+
+    public void printPersons(List<Person> personList) {
+        if (personList.isEmpty()) {
+            System.out.println("No data found");
+        } else {
+            for (Person person : personList) {
+                printPerson(person);
+            }
+        }
+    }
+
+    public void printPerson(Person person) {
+        System.out.println(person.getFirstName() + " " + person.getLastName() + " " + person.getEmail());
     }
 }

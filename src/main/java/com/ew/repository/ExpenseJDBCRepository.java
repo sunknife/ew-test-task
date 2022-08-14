@@ -10,7 +10,7 @@ import java.util.List;
 
 public class ExpenseJDBCRepository {
 
-    private Connection connection;
+    private final Connection connection;
 
 
     public ExpenseJDBCRepository(Connection connection) {
@@ -103,5 +103,13 @@ public class ExpenseJDBCRepository {
             e.printStackTrace();
         }
         return result;
+    }
+
+    public void deleteAll() {
+        try (PreparedStatement preparedStatement = connection.prepareCall("DELETE FROM expense")){
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
