@@ -1,6 +1,7 @@
 package com.ew.service;
 
 import com.ew.domain.Person;
+import com.ew.repository.ExpenseJDBCRepository;
 import com.ew.repository.PersonJDBCRepository;
 
 import java.util.List;
@@ -9,9 +10,11 @@ import java.util.Scanner;
 public class PersonService {
 
     private final PersonJDBCRepository repository;
+    private final ExpenseJDBCRepository expenseJDBCRepository;
 
-    public PersonService(PersonJDBCRepository repository) {
+    public PersonService(PersonJDBCRepository repository, ExpenseJDBCRepository expenseJDBCRepository) {
         this.repository = repository;
+        this.expenseJDBCRepository = expenseJDBCRepository;
     }
 
     public Person create(Scanner scanner) {
@@ -34,6 +37,7 @@ public class PersonService {
 
     public void deleteAll() {
         repository.deleteAll();
+        expenseJDBCRepository.deleteAll();
     }
 
     public void printPersons(List<Person> personList) {

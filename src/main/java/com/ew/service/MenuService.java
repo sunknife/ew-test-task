@@ -16,7 +16,7 @@ public class MenuService {
     }
 
     public void processMenu() throws SQLException {
-        PersonService personService = new PersonService(new PersonJDBCRepository(dataSource.getConnection()));
+        PersonService personService = new PersonService(new PersonJDBCRepository(dataSource.getConnection()), new ExpenseJDBCRepository(dataSource.getConnection()));
         ExpenseService expenseService = new ExpenseService(new ExpenseJDBCRepository(dataSource.getConnection()), personService);
 
         String mainInput = "";
