@@ -13,7 +13,6 @@ import java.util.Properties;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        System.out.println("Task start.");
         DataSource dataSource = createDataSource();
         Flyway flyway = createFlyway(dataSource);
         flyway.migrate();

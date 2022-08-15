@@ -49,4 +49,17 @@ public class PersonJDBCRepository {
             e.printStackTrace();
         }
     }
+
+    public Person findById(Long userId) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM person WHERE id=?")) {
+                preparedStatement.setLong(1, userId);
+                ResultSet resultSet = preparedStatement.executeQuery();
+                PersonMapper personMapper = new PersonMapper();
+                resultSet.next();
+                return personMapper.extractFromResultSet(resultSet);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return null;
+    }
 }

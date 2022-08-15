@@ -2,19 +2,24 @@ package com.ew.service;
 
 import com.ew.domain.Expense;
 import com.ew.domain.ExpenseType;
+import com.ew.domain.Person;
 import com.ew.repository.ExpenseJDBCRepository;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
 public class ExpenseService {
 
     private final ExpenseJDBCRepository repository;
+    private final PersonService personService;
 
-    public ExpenseService(ExpenseJDBCRepository repository) {
+    public ExpenseService(ExpenseJDBCRepository repository, PersonService personService) {
         this.repository = repository;
+        this.personService = personService;
     }
 
     public Expense createLatestExpense(Scanner scanner) {
@@ -23,12 +28,36 @@ public class ExpenseService {
         expense.setAmount(new BigDecimal(scanner.nextLine()));
         expense.setType(selectExpenseType(scanner));
         expense.setExpenseDate(LocalDate.now());
-        System.out.println("Enter user id");
-        expense.setUserId(Long.parseLong(scanner.nextLine()));
+        System.out.println("Choose user id");
+        expense.setUserId(chooseId(personService, scanner));
 
         repository.create(expense);
 
         return expense;
+    }
+
+    private Long chooseId(PersonService personService, Scanner scanner) {
+        List<Person> personList = personService.findAll();
+        Set<Long> personIds = new HashSet<>();
+        for (Person person : personList) {
+            personIds.add(person.getId());
+        }
+        long input = 0L;
+        while (!personIds.contains(input)) {
+            System.out.println("Available users:");
+            printAvailableUsers(personList);
+            input = Long.parseLong(scanner.nextLine());
+            if (!personIds.contains(input)) {
+                System.out.println("No such id. Please try again");
+            }
+        }
+        return input;
+    }
+
+    private void printAvailableUsers(List<Person> personList) {
+        for (Person person : personList) {
+            personService.printFullPerson(person);
+        }
     }
 
     public Expense createCustomExpense(Scanner scanner) {
@@ -37,8 +66,8 @@ public class ExpenseService {
         expense.setAmount(new BigDecimal(scanner.nextLine()));
         expense.setType(selectExpenseType(scanner));
         expense.setExpenseDate(createDate(scanner));
-        System.out.println("Enter user id");
-        expense.setUserId(Long.parseLong(scanner.nextLine()));
+        System.out.println("Choose user id");
+        expense.setUserId(chooseId(personService, scanner));
 
         repository.create(expense);
 
@@ -110,7 +139,8 @@ public class ExpenseService {
     }
 
     public void printExpense(Expense expense) {
-        System.out.println(expense.getExpenseDate() + " " + expense.getType() + " " + expense.getAmount() + "UAH");
+        Person person = personService.findById(expense.getUserId());
+        System.out.println(expense.getExpenseDate() + " " + expense.getType() + " " + expense.getAmount() + "UAH " + person.getFirstName() + " " + person.getLastName());
     }
 
     public List<Expense> findByDate(Scanner scanner) {

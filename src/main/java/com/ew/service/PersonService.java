@@ -49,4 +49,12 @@ public class PersonService {
     public void printPerson(Person person) {
         System.out.println(person.getFirstName() + " " + person.getLastName() + " " + person.getEmail());
     }
+
+    public void printFullPerson(Person person) {
+        System.out.println("Press " + person.getId() + " to select " + person.getFirstName() + " " + person.getLastName() + " " + person.getEmail());
+    }
+
+    public Person findById(Long userId) {
+        return repository.findById(userId);
+    }
 }

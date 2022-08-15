@@ -73,4 +73,21 @@ class PersonJDBCRepositoryTest extends BaseTest {
         List<Person> foundPersons = repository.findAll();
         assertTrue(foundPersons.isEmpty());
     }
+
+    @Test
+    void findById() {
+        Person person = new Person();
+        person.setEmail("example@email.com");
+        person.setFirstName("John");
+        person.setLastName("Lasseter");
+        repository.create(person);
+        long newId = repository.findAll().get(0).getId();
+        Person foundPerson = repository.findById(newId);
+        assertAll(
+                ()->assertEquals(person.getEmail(), foundPerson.getEmail()),
+                ()->assertEquals(person.getFirstName(), foundPerson.getFirstName()),
+                ()->assertEquals(person.getLastName(), foundPerson.getLastName()),
+                ()->assertEquals(newId, foundPerson.getId())
+        );
+    }
 }
