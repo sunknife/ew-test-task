@@ -1,7 +1,11 @@
 package com.ew.domain;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+@Data
 public class Person {
-    private Long id;
+    @EqualsAndHashCode.Exclude private Long id;
     private String firstName;
     private String lastName;
     private String email;

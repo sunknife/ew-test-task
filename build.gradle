@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'org.flywaydb.flyway' version '8.2.2'
 }
 
 group 'com.ew'
@@ -10,6 +11,13 @@ repositories {
 }
 
 dependencies {
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.22'
+    annotationProcessor 'org.projectlombok:lombok:1.18.22'
+    implementation 'org.flywaydb:flyway-core:8.2.2'
+    implementation 'org.postgresql:postgresql:42.3.1'
+    implementation 'com.zaxxer:HikariCP:5.0.0'
+
+    testImplementation 'com.h2database:h2:1.4.200'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
